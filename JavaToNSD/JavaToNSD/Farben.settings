@@ -1,0 +1,21 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="JavaToNSD" GeneratedClassName="Farben">
+  <Profiles />
+  <Settings>
+    <Setting Name="anweisung" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">255, 128, 255</Value>
+    </Setting>
+    <Setting Name="ifc" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">128, 255, 128</Value>
+    </Setting>
+    <Setting Name="casec" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">128, 255, 255</Value>
+    </Setting>
+    <Setting Name="forc" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Yellow</Value>
+    </Setting>
+    <Setting Name="whilec" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Red</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
