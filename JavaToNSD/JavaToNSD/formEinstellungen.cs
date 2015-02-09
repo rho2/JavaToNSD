@@ -25,22 +25,26 @@ namespace JavaToNSD
 
         private void button1_Click(object sender, EventArgs e)
         {
+            //fügt ein neues Schlüsselwort hinzu
             listBox1.Items.Add(textBox1.Text);
             textBox1.ResetText();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            //entfernt das ausgwählte element
             listBox1.Items.RemoveAt(listBox1.SelectedIndex);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
+            //öscht alle Elemente
             listBox1.Items.Clear();
         }
 
         public void save()
         {
+            //speichert alle Schlüsselwörter ab
             List<string> synHigh = new List<string>();
             foreach (string s in listBox1.Items)
 	        {
@@ -53,6 +57,7 @@ namespace JavaToNSD
         {
             try
             {
+                //versucht die Datei mit den Schlüsselwörtern zu lesen
                 List<string> synHigh = File.ReadAllLines(Application.StartupPath + @"\syntax.syn").ToList();
                 foreach (string s in synHigh)
                 {
@@ -61,6 +66,7 @@ namespace JavaToNSD
             }
             catch (FileNotFoundException)
             {
+                //falls diese nicht existiert wird sie erstellt
                 File.Create(Application.StartupPath + @"\syntax.syn");
             }
             
@@ -68,6 +74,7 @@ namespace JavaToNSD
 
         private void toolStripSplitButton1_ButtonClick(object sender, EventArgs e)
         {
+            //speichert und schliesst
             save();
             this.Close();
         }

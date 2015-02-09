@@ -19,21 +19,25 @@ namespace JavaToNSD
         {
             InitializeComponent();
         }
+        //array für XML code zu speicherung eines Strukogramms
         string[] xmlSchema = new string[] { "<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n <root text=\"Programm\" comment=\"\" color=\"ffffff\" type=\"program\" style=\"nice\">\n<children>\n",
                                             "\n</children>\n</root>",
                                             "\n<instruction text=\"",
                                             "\" comment=\"\" color=\"ffffff\" rotated=\"0\"></instruction>"
                                            };
+        //liest alle schlüsselwörter ein
         String[] keywordsBlue = File.ReadAllLines(Application.StartupPath + @"\syntax.syn");
 
 
         private void optionenToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //zeigt das Einstellungsfenset an
             Form Einstellungen = new formEinstellungen();
             Einstellungen.ShowDialog();
         }
         private void anpassenToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //zeigt das Anpassungsfenster an
             Form Anpassen = new Anpassen();
             Anpassen.ShowDialog();
         }
@@ -41,6 +45,7 @@ namespace JavaToNSD
 
         private void neuToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //setzt alles zuück
             rtbIN.Clear();
             rtbOut.Clear();
             lbIn.Items.Clear();
@@ -48,10 +53,12 @@ namespace JavaToNSD
         }
         private void öffnenToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //öffner die ausgeählte Datei
             openFileDialog1.ShowDialog();
             String[] zeilen = File.ReadAllLines(openFileDialog1.FileName,Encoding.UTF8);
             rtbIN.Lines = zeilen;
             #region 
+            //markiert alle schlüsselwörter
             foreach (string s in keywordsBlue)
             {
                 int wortstart = rtbIN.Text.IndexOf(s,StringComparison.Ordinal);
@@ -67,17 +74,21 @@ namespace JavaToNSD
                 }
             }
             #endregion
-
+            //string, in dem der komplette xml code gespeichert wird
             string xml = xmlSchema[0];
+            //geht alle zeilen der eingeladenen datei durch
             for (int i = 0; i < zeilen.Length; i++)
             {
+                //entfernt vorangestellte und nachgestellte Leerzeichn
                 zeilen[i] = zeilen[i].Trim();
+                //falls die zeile unnötig ist wird sie entfernt
                 if (zeilen[i].StartsWith(@"/") || zeilen[i].StartsWith(@"*") || zeilen[i].StartsWith(@"import") || zeilen[i].StartsWith(@"{") || zeilen[i].StartsWith(@"}"))
                 {
                     zeilen[i] = "";
                 }
                 if (zeilen[i] != "")
                 {
+                    //macht alles schön bunt
                     Color col;
                     if (zeilen[i].StartsWith("if"))
                     {
@@ -99,15 +110,16 @@ namespace JavaToNSD
                     {
                         col = Farben.Default.anweisung;
                     }
-                        
+                     //fügt zur listbox hinzu
                     lbIn.Items.Add(zeilen[i]).BackColor = col;
-
+                    //fügt zum treeView hinzu
                     tvOut.Nodes.Add(zeilen[i]);
-
+                    //erweitert den xml-code
                     xml += xmlSchema[2] + zeilen[i].Replace("\"","") + xmlSchema[3];
                 }
 
             }
+            //legt den xml code in die rtf box
             rtbOut.Text = xml;
             
 

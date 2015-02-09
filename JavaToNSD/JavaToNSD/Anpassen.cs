@@ -20,6 +20,7 @@ namespace JavaToNSD
 
         private void button1_Click(object sender, EventArgs e)
         {
+            //macht Farbe für Anweisung
             colorDialog1.ShowDialog();
             Button b = (Button)sender;
             b.BackColor = colorDialog1.Color;
@@ -27,6 +28,7 @@ namespace JavaToNSD
 
         private void button2_Click(object sender, EventArgs e)
         {
+            //macht Farbe für IF
             colorDialog1.ShowDialog();
             Button b = (Button)sender;
             b.BackColor = colorDialog1.Color;
@@ -34,6 +36,7 @@ namespace JavaToNSD
 
         private void button3_Click(object sender, EventArgs e)
         {
+            //macht Farbe für Case
             colorDialog1.ShowDialog();
             Button b = (Button)sender;
             b.BackColor = colorDialog1.Color;
@@ -41,6 +44,7 @@ namespace JavaToNSD
 
         private void button4_Click(object sender, EventArgs e)
         {
+            //macht Farbe für For
             colorDialog1.ShowDialog();
             Button b = (Button)sender;
             b.BackColor = colorDialog1.Color;
@@ -48,6 +52,7 @@ namespace JavaToNSD
 
         private void button5_Click(object sender, EventArgs e)
         {
+            //macht Farbe für While
             colorDialog1.ShowDialog();
             Button b = (Button)sender;
             b.BackColor = colorDialog1.Color;
@@ -60,6 +65,7 @@ namespace JavaToNSD
 
         public void save()
         {
+            // speichert alle Farben
             Farben.Default.anweisung = button1.BackColor;
             Farben.Default.ifc = button2.BackColor;
             Farben.Default.casec = button3.BackColor;
@@ -71,6 +77,7 @@ namespace JavaToNSD
 
         private void Anpassen_Load(object sender, EventArgs e)
         {
+            //lädt alle Farben
             button1.BackColor = Farben.Default.anweisung ;
             button2.BackColor = Farben.Default.ifc;
             button3.BackColor = Farben.Default.casec;
