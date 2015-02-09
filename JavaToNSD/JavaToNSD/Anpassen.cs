@@ -84,5 +84,16 @@ namespace JavaToNSD
             button4.BackColor = Farben.Default.forc;
             button5.BackColor = Farben.Default.whilec;
         }
+
+        private void btOk_Click(object sender, EventArgs e)
+        {
+            this.save();
+            this.Close();
+        }
+
+        private void btCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
