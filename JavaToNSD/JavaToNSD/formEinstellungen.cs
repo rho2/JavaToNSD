@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using JavaToNSD;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace JavaToNSD
 {
@@ -20,56 +21,58 @@ namespace JavaToNSD
         }
         private void formEinstellungen_Load(object sender, EventArgs e)
         {
+            //setzt die Liste mit den Schlüsselwörtern zurück
+            _wortListe.Clear();
+            //lädt alle Einstellungen
             load();
+            //fügt die Schlüsselwörter dem ListView hinzu
+            foreach (var item in _wortListe)
+            {
+                listView1.Items.Add(item.wort).ForeColor = item.foreColor;
+            }
         }
+        List<Keyword> _wortListe = new List<Keyword>();
 
         private void button1_Click(object sender, EventArgs e)
         {
             //fügt ein neues Schlüsselwort hinzu
-            listBox1.Items.Add(textBox1.Text);
-            textBox1.ResetText();
-        }
+            listView1.Items.Add(textBox1.Text).ForeColor = colorDialog1.Color;
+            //erstellt ein neues Keyword
+            _wortListe.Add(new Keyword(textBox1.Text, colorDialog1.Color));
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            //entfernt das ausgwählte element
-            listBox1.Items.RemoveAt(listBox1.SelectedIndex);
+            textBox1.ResetText();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             //öscht alle Elemente
-            listBox1.Items.Clear();
+            listView1.Items.Clear();
+            _wortListe.Clear();
         }
 
-        public void save()
+        private void load()
         {
-            //speichert alle Schlüsselwörter ab
-            List<string> synHigh = new List<string>();
-            foreach (string s in listBox1.Items)
-	        {
-		        synHigh.Add(s);
-	        }   
-            File.WriteAllLines(Application.StartupPath + @"\syntax.syn",synHigh);
-        }
-
-        public void load()
-        {
+            //öffnet die Schlüsselwort-Datei
+            FileStream fs = new FileStream(@"keywords.syn", FileMode.Open);
+            BinaryFormatter formatter = new BinaryFormatter();
             try
             {
-                //versucht die Datei mit den Schlüsselwörtern zu lesen
-                List<string> synHigh = File.ReadAllLines(Application.StartupPath + @"\syntax.syn").ToList();
-                foreach (string s in synHigh)
-                {
-                    listBox1.Items.Add(s);
-                }
+                _wortListe = (List<Keyword>)formatter.Deserialize(fs);
             }
-            catch (FileNotFoundException)
+            catch (Exception)
             {
-                //falls diese nicht existiert wird sie erstellt
-                File.Create(Application.StartupPath + @"\syntax.syn");
+                _wortListe = new List<Keyword>();
             }
-            
+            fs.Close();
+        }
+
+        private void save()
+        {
+            //speichert die Datei ab
+            FileStream fs = new FileStream(@"keywords.syn", FileMode.Create);
+            BinaryFormatter bf = new BinaryFormatter();
+            bf.Serialize(fs, _wortListe);
+            fs.Close();
         }
 
         private void toolStripSplitButton1_ButtonClick(object sender, EventArgs e)
@@ -77,6 +80,17 @@ namespace JavaToNSD
             //speichert und schliesst
             save();
             this.Close();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            colorDialog1.ShowDialog();
+            button4.BackColor = colorDialog1.Color;
+        }
+        
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
         }
 
         

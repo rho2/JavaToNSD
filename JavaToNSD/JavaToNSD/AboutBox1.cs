@@ -20,6 +20,7 @@ namespace JavaToNSD
             this.labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
             this.labelCopyright.Text = AssemblyCopyright;
             this.labelCompanyName.Text = AssemblyCompany;
+            //zeigt auch die Lizenz an
             this.textBoxDescription.Text = AssemblyDescription + "\n\n" + File.ReadAllText("License.txt");
         }
 
@@ -106,6 +107,11 @@ namespace JavaToNSD
         private void okButton_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void tableLayoutPanel_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

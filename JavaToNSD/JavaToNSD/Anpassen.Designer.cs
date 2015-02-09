@@ -207,7 +207,7 @@
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(576, 294);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.Text = "Sonstiges";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // Anpassen
@@ -220,6 +220,7 @@
             this.Controls.Add(this.btCancel);
             this.Controls.Add(this.btSave);
             this.Name = "Anpassen";
+            this.ShowIcon = false;
             this.Text = "Anpassen";
             this.Load += new System.EventHandler(this.Anpassen_Load);
             this.tabControl1.ResumeLayout(false);

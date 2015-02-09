@@ -60,6 +60,7 @@ namespace JavaToNSD
 
         private void btSave_Click(object sender, EventArgs e)
         {
+            //speichert
             save();
         }
 
@@ -71,7 +72,7 @@ namespace JavaToNSD
             Farben.Default.casec = button3.BackColor;
             Farben.Default.forc = button4.BackColor;
             Farben.Default.whilec = button5.BackColor;
-
+            //speichert die Einstellungen ab
             Farben.Default.Save();
         }
 
@@ -87,12 +88,14 @@ namespace JavaToNSD
 
         private void btOk_Click(object sender, EventArgs e)
         {
+            //Speichert und schließt
             this.save();
             this.Close();
         }
 
         private void btCancel_Click(object sender, EventArgs e)
         {
+            //schließt
             this.Close();
         }
     }

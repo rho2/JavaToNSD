@@ -59,30 +59,24 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.rtbIN = new System.Windows.Forms.RichTextBox();
-            this.lbIn = new System.Windows.Forms.ListView();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.tvOut = new System.Windows.Forms.TreeView();
-            this.rtbOut = new System.Windows.Forms.RichTextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.rtbIN = new System.Windows.Forms.RichTextBox();
+            this.rtbOut = new System.Windows.Forms.RichTextBox();
+            this.lbIn = new System.Windows.Forms.ListView();
+            this.tvOut = new System.Windows.Forms.TreeView();
             this.menuStrip1.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
@@ -98,7 +92,7 @@
             this.hilfeToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(870, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(984, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -185,6 +179,7 @@
             // beendenToolStripMenuItem
             // 
             this.beendenToolStripMenuItem.Name = "beendenToolStripMenuItem";
+            this.beendenToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
             this.beendenToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.beendenToolStripMenuItem.Text = "&Beenden";
             this.beendenToolStripMenuItem.Click += new System.EventHandler(this.beendenToolStripMenuItem_Click);
@@ -337,124 +332,11 @@
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripSplitButton1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 624);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 639);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(870, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(984, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
-            // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 24);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.groupBox1);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
-            this.splitContainer1.Size = new System.Drawing.Size(870, 600);
-            this.splitContainer1.SplitterDistance = 411;
-            this.splitContainer1.SplitterWidth = 3;
-            this.splitContainer1.TabIndex = 2;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.splitContainer2);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(411, 600);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Eingabe";
-            // 
-            // splitContainer2
-            // 
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.Location = new System.Drawing.Point(3, 16);
-            this.splitContainer2.Name = "splitContainer2";
-            // 
-            // splitContainer2.Panel1
-            // 
-            this.splitContainer2.Panel1.Controls.Add(this.rtbIN);
-            // 
-            // splitContainer2.Panel2
-            // 
-            this.splitContainer2.Panel2.Controls.Add(this.lbIn);
-            this.splitContainer2.Size = new System.Drawing.Size(405, 581);
-            this.splitContainer2.SplitterDistance = 197;
-            this.splitContainer2.TabIndex = 0;
-            // 
-            // rtbIN
-            // 
-            this.rtbIN.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtbIN.Location = new System.Drawing.Point(0, 0);
-            this.rtbIN.Name = "rtbIN";
-            this.rtbIN.Size = new System.Drawing.Size(197, 581);
-            this.rtbIN.TabIndex = 0;
-            this.rtbIN.Text = "";
-            // 
-            // lbIn
-            // 
-            this.lbIn.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbIn.Location = new System.Drawing.Point(0, 0);
-            this.lbIn.Name = "lbIn";
-            this.lbIn.ShowItemToolTips = true;
-            this.lbIn.Size = new System.Drawing.Size(204, 581);
-            this.lbIn.TabIndex = 0;
-            this.lbIn.UseCompatibleStateImageBehavior = false;
-            this.lbIn.View = System.Windows.Forms.View.List;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.splitContainer3);
-            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Location = new System.Drawing.Point(0, 0);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(456, 600);
-            this.groupBox2.TabIndex = 0;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Ausgabe";
-            // 
-            // splitContainer3
-            // 
-            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer3.Location = new System.Drawing.Point(3, 16);
-            this.splitContainer3.Name = "splitContainer3";
-            // 
-            // splitContainer3.Panel1
-            // 
-            this.splitContainer3.Panel1.Controls.Add(this.tvOut);
-            // 
-            // splitContainer3.Panel2
-            // 
-            this.splitContainer3.Panel2.Controls.Add(this.rtbOut);
-            this.splitContainer3.Size = new System.Drawing.Size(450, 581);
-            this.splitContainer3.SplitterDistance = 228;
-            this.splitContainer3.TabIndex = 0;
-            // 
-            // tvOut
-            // 
-            this.tvOut.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tvOut.Location = new System.Drawing.Point(0, 0);
-            this.tvOut.Name = "tvOut";
-            this.tvOut.Size = new System.Drawing.Size(228, 581);
-            this.tvOut.TabIndex = 0;
-            // 
-            // rtbOut
-            // 
-            this.rtbOut.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtbOut.Location = new System.Drawing.Point(0, 0);
-            this.rtbOut.Name = "rtbOut";
-            this.rtbOut.Size = new System.Drawing.Size(218, 581);
-            this.rtbOut.TabIndex = 0;
-            this.rtbOut.Text = "";
             // 
             // openFileDialog1
             // 
@@ -467,42 +349,117 @@
             this.saveFileDialog1.DefaultExt = "nsd";
             this.saveFileDialog1.Filter = "NSD-Files|*.nsd";
             // 
-            // toolStripSplitButton1
+            // splitContainer1
             // 
-            this.toolStripSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripSplitButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSplitButton1.Image")));
-            this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripSplitButton1.Name = "toolStripSplitButton1";
-            this.toolStripSplitButton1.Size = new System.Drawing.Size(59, 20);
-            this.toolStripSplitButton1.Text = "refresh";
-            this.toolStripSplitButton1.ButtonClick += new System.EventHandler(this.toolStripSplitButton1_ButtonClick);
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 24);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.rtbIN);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
+            this.splitContainer1.Size = new System.Drawing.Size(984, 615);
+            this.splitContainer1.SplitterDistance = 318;
+            this.splitContainer1.TabIndex = 2;
+            // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Name = "splitContainer2";
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.splitContainer3);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.rtbOut);
+            this.splitContainer2.Size = new System.Drawing.Size(662, 615);
+            this.splitContainer2.SplitterDistance = 313;
+            this.splitContainer2.TabIndex = 0;
+            // 
+            // splitContainer3
+            // 
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer3.Name = "splitContainer3";
+            this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer3.Panel1
+            // 
+            this.splitContainer3.Panel1.Controls.Add(this.lbIn);
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this.tvOut);
+            this.splitContainer3.Size = new System.Drawing.Size(313, 615);
+            this.splitContainer3.SplitterDistance = 256;
+            this.splitContainer3.TabIndex = 0;
+            // 
+            // rtbIN
+            // 
+            this.rtbIN.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbIN.Location = new System.Drawing.Point(0, 0);
+            this.rtbIN.Name = "rtbIN";
+            this.rtbIN.Size = new System.Drawing.Size(318, 615);
+            this.rtbIN.TabIndex = 0;
+            this.rtbIN.Text = "";
+            // 
+            // rtbOut
+            // 
+            this.rtbOut.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbOut.Location = new System.Drawing.Point(0, 0);
+            this.rtbOut.Name = "rtbOut";
+            this.rtbOut.Size = new System.Drawing.Size(345, 615);
+            this.rtbOut.TabIndex = 0;
+            this.rtbOut.Text = "";
+            // 
+            // lbIn
+            // 
+            this.lbIn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbIn.Location = new System.Drawing.Point(0, 0);
+            this.lbIn.Name = "lbIn";
+            this.lbIn.Size = new System.Drawing.Size(313, 256);
+            this.lbIn.TabIndex = 0;
+            this.lbIn.UseCompatibleStateImageBehavior = false;
+            this.lbIn.View = System.Windows.Forms.View.List;
+            // 
+            // tvOut
+            // 
+            this.tvOut.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tvOut.Location = new System.Drawing.Point(0, 0);
+            this.tvOut.Name = "tvOut";
+            this.tvOut.Size = new System.Drawing.Size(313, 355);
+            this.tvOut.TabIndex = 0;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(870, 646);
+            this.ClientSize = new System.Drawing.Size(984, 661);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
+            this.ShowIcon = false;
             this.Text = "Java to NSD";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
@@ -544,18 +501,15 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem infoToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.RichTextBox rtbIN;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.SplitContainer splitContainer3;
-        private System.Windows.Forms.RichTextBox rtbIN;
+        private System.Windows.Forms.ListView lbIn;
         private System.Windows.Forms.TreeView tvOut;
         private System.Windows.Forms.RichTextBox rtbOut;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.ListView lbIn;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
-        private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton1;
     }
 }
 
