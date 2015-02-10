@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using JavaToNSD;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text.RegularExpressions;
 
 namespace JavaToNSD
 {
@@ -18,13 +19,41 @@ namespace JavaToNSD
     {
         public Form1()
         {
+            if (File.Exists(Application.StartupPath + @"\keywords.dat"))
+            {
+                
+            }
+            else
+            {
+                using (FileStream f = File.Create(Application.StartupPath + @"\keywords.dat"))
+                {
+                    
+                } 
+            }
+            if (File.Exists(Application.StartupPath + @"\uebersetzungen.dat"))
+            {
+
+            }
+            else
+            {
+                using (FileStream f = File.Create(Application.StartupPath + @"\uebersetzungen.dat"))
+                {
+                    
+                }
+                
+            }
             InitializeComponent();
+            
         }
         //Liste, zur Abspeicherung alles Schlüsselwörter
         List<Keyword> _wortListe;
+
+        List<Uebersetzung> _uebersetungen;
+
         private void Form1_Load(object sender, EventArgs e)
         {
             loadWortListe();//aktualisiert die Liste an Schlüsselwörtern
+            loadUebersetzungen();
         }
         //array für XML code zu speicherung eines Strukogramms
         string[] xmlSchema = new string[] { "<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n <root text=\"Programm\" comment=\"\" color=\"ffffff\" type=\"program\" style=\"nice\">\n<children>\n",
@@ -45,6 +74,7 @@ namespace JavaToNSD
             Einstellungen.ShowDialog();
             //aktualisiert die Liste an Schlüsselwörtern
             loadWortListe();
+            loadUebersetzungen();
         }
         private void anpassenToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -80,6 +110,9 @@ namespace JavaToNSD
 
             //setzt die Zeilen aus der Quelldatei in die Rich-Text-Box
             rtbIN.Lines = zeilen;
+
+            //wandelt die Zeilen um
+            zeilen = convertWords(zeilen);
 
             //markiert alle schlüsselwörter
             ColorizeKeywords(rtbIN);
@@ -158,10 +191,11 @@ namespace JavaToNSD
                     }
 
                      //fügt zum ListView hinzu
-                    lbIn.Items.Add(zeilen[i]).BackColor = col;
+                    lbIn.Items.Add(rtbIN.Lines[i]).BackColor = col;
 
                     //fügt zum treeView hinzu
                     tvOut.Nodes.Add(zeilen[i]);
+
                     
                 }
 
@@ -336,7 +370,7 @@ namespace JavaToNSD
         private void loadWortListe()
         {
             //öffnet die Datei mit den Schhlüsselwörtern
-            FileStream fs = new FileStream(@"keywords.syn", FileMode.Open);
+            FileStream fs = new FileStream(@"keywords.dat", FileMode.Open);
             BinaryFormatter formatter = new BinaryFormatter();
             try
             {
@@ -352,6 +386,42 @@ namespace JavaToNSD
             fs.Close();
         }
 
+        private void loadUebersetzungen()
+        {
+            //öffnet die Datei mit den Übersetzungen
+            FileStream fs = new FileStream(@"uebersetzungen.dat", FileMode.Open);
+            BinaryFormatter formatter = new BinaryFormatter();
+            try
+            {
+                //versuch die Übersetzungen auszulesen und abzuspeichern
+               _uebersetungen = (List<Uebersetzung>)formatter.Deserialize(fs);
+            }
+            catch (Exception)
+            {
+                //falls das fehlschlägt wird eine Leere Liste verwendet
+                _uebersetungen = new List<Uebersetzung>();
+            }
+            //schließt die Datei wieder
+            fs.Close();
+        }
         
+
+        private string[] convertWords(string[] Lines)
+        {
+            string[] l = Lines;
+
+            for (int i = 0; i < l.Length; i++)
+            {
+                foreach (Uebersetzung item in _uebersetungen)
+                {
+                    foreach (Match match in Regex.Matches(l[i], item.java))
+                    {
+                        l[i] = item.vorA + match.Groups[1].Value + item.zwischenAB + match.Groups[2].Value + item.nachB;
+                    }
+                }
+            }
+                    
+            return l;
+        }
     }
 }
