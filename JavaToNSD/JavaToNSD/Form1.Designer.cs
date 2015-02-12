@@ -62,12 +62,14 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.rtbIN = new System.Windows.Forms.RichTextBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.rtbIN = new System.Windows.Forms.RichTextBox();
-            this.rtbOut = new System.Windows.Forms.RichTextBox();
             this.lbIn = new System.Windows.Forms.ListView();
             this.tvOut = new System.Windows.Forms.TreeView();
+            this.listBox2 = new System.Windows.Forms.ListBox();
+            this.rtbOut = new System.Windows.Forms.RichTextBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -357,6 +359,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.listBox1);
             this.splitContainer1.Panel1.Controls.Add(this.rtbIN);
             // 
             // splitContainer1.Panel2
@@ -365,6 +368,27 @@
             this.splitContainer1.Size = new System.Drawing.Size(984, 615);
             this.splitContainer1.SplitterDistance = 318;
             this.splitContainer1.TabIndex = 2;
+            // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(12, 543);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(100, 69);
+            this.listBox1.TabIndex = 1;
+            this.listBox1.Visible = false;
+            this.listBox1.DoubleClick += new System.EventHandler(this.listBox1_DoubleClick);
+            // 
+            // rtbIN
+            // 
+            this.rtbIN.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbIN.Location = new System.Drawing.Point(0, 0);
+            this.rtbIN.Name = "rtbIN";
+            this.rtbIN.Size = new System.Drawing.Size(318, 615);
+            this.rtbIN.TabIndex = 0;
+            this.rtbIN.Text = "";
+            this.rtbIN.KeyDown += new System.Windows.Forms.KeyEventHandler(this.rtbIN_KeyDown);
+            this.rtbIN.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.rtbIN_KeyPress);
             // 
             // splitContainer2
             // 
@@ -378,6 +402,7 @@
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.listBox2);
             this.splitContainer2.Panel2.Controls.Add(this.rtbOut);
             this.splitContainer2.Size = new System.Drawing.Size(662, 615);
             this.splitContainer2.SplitterDistance = 313;
@@ -401,24 +426,6 @@
             this.splitContainer3.SplitterDistance = 256;
             this.splitContainer3.TabIndex = 0;
             // 
-            // rtbIN
-            // 
-            this.rtbIN.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtbIN.Location = new System.Drawing.Point(0, 0);
-            this.rtbIN.Name = "rtbIN";
-            this.rtbIN.Size = new System.Drawing.Size(318, 615);
-            this.rtbIN.TabIndex = 0;
-            this.rtbIN.Text = "";
-            // 
-            // rtbOut
-            // 
-            this.rtbOut.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtbOut.Location = new System.Drawing.Point(0, 0);
-            this.rtbOut.Name = "rtbOut";
-            this.rtbOut.Size = new System.Drawing.Size(345, 615);
-            this.rtbOut.TabIndex = 0;
-            this.rtbOut.Text = "";
-            // 
             // lbIn
             // 
             this.lbIn.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -436,6 +443,27 @@
             this.tvOut.Name = "tvOut";
             this.tvOut.Size = new System.Drawing.Size(313, 355);
             this.tvOut.TabIndex = 0;
+            // 
+            // listBox2
+            // 
+            this.listBox2.FormattingEnabled = true;
+            this.listBox2.Location = new System.Drawing.Point(19, 556);
+            this.listBox2.Name = "listBox2";
+            this.listBox2.Size = new System.Drawing.Size(215, 69);
+            this.listBox2.TabIndex = 2;
+            this.listBox2.Visible = false;
+            this.listBox2.DoubleClick += new System.EventHandler(this.listBox2_DoubleClick);
+            // 
+            // rtbOut
+            // 
+            this.rtbOut.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbOut.Location = new System.Drawing.Point(0, 0);
+            this.rtbOut.Name = "rtbOut";
+            this.rtbOut.Size = new System.Drawing.Size(345, 615);
+            this.rtbOut.TabIndex = 0;
+            this.rtbOut.Text = "";
+            this.rtbOut.KeyDown += new System.Windows.Forms.KeyEventHandler(this.rtbOut_KeyDown);
+            this.rtbOut.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.rtbOut_KeyPress);
             // 
             // Form1
             // 
@@ -510,6 +538,8 @@
         private System.Windows.Forms.ListView lbIn;
         private System.Windows.Forms.TreeView tvOut;
         private System.Windows.Forms.RichTextBox rtbOut;
+        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox listBox2;
     }
 }
 

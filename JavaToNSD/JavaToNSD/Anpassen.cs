@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using JavaToNSD;
-
+using JavaToNSD.Properties;
 namespace JavaToNSD
 {
     public partial class Anpassen : Form
@@ -74,6 +74,12 @@ namespace JavaToNSD
             Farben.Default.whilec = button5.BackColor;
             //speichert die Einstellungen ab
             Farben.Default.Save();
+
+            Settings.Default.FontCodeEditor = label7.Font;
+            Settings.Default.FontListView = label8.Font; 
+            Settings.Default.FontTreeView = label10.Font;
+            Settings.Default.FontXMLEditor = label12.Font;
+            Settings.Default.Save();
         }
 
         private void Anpassen_Load(object sender, EventArgs e)
@@ -84,6 +90,11 @@ namespace JavaToNSD
             button3.BackColor = Farben.Default.casec;
             button4.BackColor = Farben.Default.forc;
             button5.BackColor = Farben.Default.whilec;
+
+            label7.Font = Settings.Default.FontCodeEditor;
+            label8.Font = Settings.Default.FontListView;
+            label10.Font = Settings.Default.FontTreeView;
+            label12.Font = Settings.Default.FontXMLEditor;
         }
 
         private void btOk_Click(object sender, EventArgs e)
@@ -97,6 +108,30 @@ namespace JavaToNSD
         {
             //schließt
             this.Close();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            fontDialog1.ShowDialog();
+            label7.Font = fontDialog1.Font;
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            fontDialog1.ShowDialog();
+            label8.Font = fontDialog1.Font;
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            fontDialog1.ShowDialog();
+            label10.Font = fontDialog1.Font;
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            fontDialog1.ShowDialog();
+            label12.Font = fontDialog1.Font;
         }
     }
 }

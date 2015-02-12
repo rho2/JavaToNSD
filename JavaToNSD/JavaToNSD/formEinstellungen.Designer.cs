@@ -46,6 +46,10 @@
             this.button7 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.listView2 = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.button2 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
@@ -58,10 +62,9 @@
             this.toolStripSplitButton2 = new System.Windows.Forms.ToolStripSplitButton();
             this.toolStripSplitButton3 = new System.Windows.Forms.ToolStripSplitButton();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.button8 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -93,6 +96,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.button8);
             this.tabPage2.Controls.Add(this.button5);
             this.tabPage2.Controls.Add(this.groupBox1);
             this.tabPage2.Controls.Add(this.button7);
@@ -252,8 +256,29 @@
             this.listView2.View = System.Windows.Forms.View.Details;
             this.listView2.SelectedIndexChanged += new System.EventHandler(this.listView2_SelectedIndexChanged);
             // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Java";
+            this.columnHeader1.Width = 284;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "Vor A";
+            this.columnHeader2.Width = 79;
+            // 
+            // columnHeader3
+            // 
+            this.columnHeader3.Text = "Zwischen A und B";
+            this.columnHeader3.Width = 112;
+            // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "Nach B";
+            this.columnHeader4.Width = 99;
+            // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.button9);
             this.tabPage4.Controls.Add(this.button2);
             this.tabPage4.Controls.Add(this.button4);
             this.tabPage4.Controls.Add(this.listView1);
@@ -372,25 +397,30 @@
             this.colorDialog1.AllowFullOpen = false;
             this.colorDialog1.SolidColorOnly = true;
             // 
-            // columnHeader1
+            // button8
             // 
-            this.columnHeader1.Text = "Java";
-            this.columnHeader1.Width = 284;
+            this.button8.Location = new System.Drawing.Point(682, 441);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(86, 23);
+            this.button8.TabIndex = 5;
+            this.button8.Text = "aus Datei...";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
-            // columnHeader2
+            // button9
             // 
-            this.columnHeader2.Text = "Vor A";
-            this.columnHeader2.Width = 79;
+            this.button9.Location = new System.Drawing.Point(638, 145);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(130, 23);
+            this.button9.TabIndex = 8;
+            this.button9.Text = "aus Datei...";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
-            // columnHeader3
+            // openFileDialog1
             // 
-            this.columnHeader3.Text = "Zwischen A und B";
-            this.columnHeader3.Width = 112;
-            // 
-            // columnHeader4
-            // 
-            this.columnHeader4.Text = "Nach B";
-            this.columnHeader4.Width = 99;
+            this.openFileDialog1.DefaultExt = "dat";
+            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // formEinstellungen
             // 
@@ -451,5 +481,8 @@
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }

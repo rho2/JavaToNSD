@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using JavaToNSD;
+using JavaToNSD.Properties;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
 
@@ -43,30 +44,62 @@ namespace JavaToNSD
                 
             }
             InitializeComponent();
-            
+            this.rtbIN.AllowDrop = true;
+            this.rtbIN.DragEnter += rtbIN_DragEnter;
+            this.rtbIN.DragDrop += rtbIN_DragDrop;
+        }
+
+        void rtbIN_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] path = (string[])e.Data.GetData(DataFormats.FileDrop);
+                openFile(path[0]);
+                
+            }
+        }
+
+        void rtbIN_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.All;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
         }
         //Liste, zur Abspeicherung alles Schlüsselwörter
         List<Keyword> _wortListe;
-
         List<Uebersetzung> _uebersetungen;
+        #region Array mit dem ABC
+        string[] abc = new string[] 
+        { 
+            "Q", "W", "E", "R", "T", "Z", "U", "I", "O", "P", "A", "S", "D", "F", "G", "H", "J", "K", "L", "Y", "X", "C", "V", "B", "N", "M",
+            "q", "w", "e", "r", "t", "z", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "y", "x", "c", "v", "b", "n", "m"
+        };
+        #endregion
+        #region Deklerationen für AutoComplete
+        bool listShowAC1 = false;
+        bool listShownAC1 = false;
+        string keyword1 = "";
+
+        int countAC1;
+
+        bool listShowAC2 = false;
+        bool listShownAC2 = false;
+        string keyword2 = "";
+
+        int countAC2;
+        #endregion
 
         private void Form1_Load(object sender, EventArgs e)
         {
             loadWortListe();//aktualisiert die Liste an Schlüsselwörtern
             loadUebersetzungen();
         }
-        //array für XML code zu speicherung eines Strukogramms
-        string[] xmlSchema = new string[] { "<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n <root text=\"Programm\" comment=\"\" color=\"ffffff\" type=\"program\" style=\"nice\">\n<children>\n",
-                                            "\n</children>\n</root>",
-                                            "\n<instruction text=\"",
-                                            "\" comment=\"\" color=\"ffffff\" rotated=\"0\"></instruction>",
-                                            "<alternative text=\"",
-                                            "\" comment=\"\" color=\"ffffff\">\n<qTrue>\n</qTrue>\n<qFalse>\n</qFalse></alternative>"
-                                           };
-       
-        
-
-
+ 
         private void optionenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //zeigt das Einstellungsfenster an
@@ -81,6 +114,11 @@ namespace JavaToNSD
             //zeigt das Anpassungsfenster an
             Form Anpassen = new Anpassen();
             Anpassen.ShowDialog();
+
+            rtbIN.Font = Settings.Default.FontCodeEditor;
+            rtbOut.Font = Settings.Default.FontXMLEditor;
+            lbIn.Font = Settings.Default.FontListView;
+            tvOut.Font = Settings.Default.FontTreeView;
         }
 
 
@@ -99,120 +137,25 @@ namespace JavaToNSD
             lbIn.Items.Clear();
             tvOut.Nodes.Clear();
 
-            //Variable zum Speichern der Art der letzten Anweisung
-            byte type = 0;
-
             //öffnet einen Dialog, in dem die zu öffnende Datei ausgewählt werden kann
             openFileDialog1.ShowDialog();
 
-            //liest alle Zeilen aus der Quell-Code-Datei
-            String[] zeilen = File.ReadAllLines(openFileDialog1.FileName,Encoding.UTF8);
+            openFile(openFileDialog1.FileName);
 
-            //setzt die Zeilen aus der Quelldatei in die Rich-Text-Box
-            rtbIN.Lines = zeilen;
-
-            //wandelt die Zeilen um
-            zeilen = convertWords(zeilen);
-
-            //markiert alle schlüsselwörter
-            ColorizeKeywords(rtbIN);
-
-            //färbt Kommentare grün
-            #region
-            foreach (string s in rtbIN.Lines)
-            {
-                if (s.Contains("//") || s.Contains("/*") || s.Contains("*/"))
-                {
-                    int wortstart = rtbIN.Text.IndexOf(s, StringComparison.Ordinal);
-                    rtbIN.Select(wortstart, s.Length);
-                    rtbIN.SelectionColor = Color.DarkGreen;
-
-                    rtbIN.Select(wortstart + s.Length, 0);
-                    rtbIN.SelectionColor = Color.Black;
-                }
-
-            }
-            #endregion
-
-            //string, in dem der komplette xml code gespeichert wird
-            string xml = xmlSchema[0];
-
-            //geht alle zeilen der eingeladenen datei durch
-            for (int i = 0; i < zeilen.Length; i++)
-            {
-                //entfernt vorangestellte und nachgestellte Leerzeichn
-                zeilen[i] = zeilen[i].Trim();
-
-                //falls die zeile unnötig ist wird sie entfernt
-                if (zeilen[i].StartsWith(@"/") ||
-                    zeilen[i].StartsWith(@"*") ||
-                    zeilen[i].StartsWith(@"import") ||
-                    zeilen[i].StartsWith(@"{") ||
-                    zeilen[i].StartsWith(@"}"))
-                {
-                    zeilen[i] = "";
-                }
-
-                //wird nur ausgeführt, wenn die Zeile etwas enthält
-                if (zeilen[i] != "")
-                {
-                    //macht alles schön bunt
-                    Color col;
-                    if (zeilen[i].StartsWith("if"))
-                    {
-                        col = Farben.Default.ifc;
-                        type = 1;
-                        xml += xmlSchema[4] + zeilen[i].Replace("\"", "") + xmlSchema[5];
-                    }
-
-                    else if (zeilen[i].StartsWith("switch"))
-                    {
-                        col = Farben.Default.casec;
-                        type = 2;
-                    }
-
-                    else if (zeilen[i].StartsWith("for"))
-                    {
-                        col = Farben.Default.forc;
-                        type = 3;
-                    }
-
-                    else if (zeilen[i].StartsWith("while"))
-                    {
-                        col = Farben.Default.whilec;
-                        type = 4;
-                    }
-
-                    else
-                    {
-                        col = Farben.Default.anweisung;
-                        type = 0;
-                        xml += xmlSchema[2] + zeilen[i].Replace("\"", "").Replace("=", @"&#60;-") + xmlSchema[3];
-                    }
-
-                     //fügt zum ListView hinzu
-                    lbIn.Items.Add(rtbIN.Lines[i]).BackColor = col;
-
-                    //fügt zum treeView hinzu
-                    tvOut.Nodes.Add(zeilen[i]);
-
-                    
-                }
-
-            }
-            //legt den xml code in die Rich-Text-Box
-            rtbOut.Text = xml;
-            
-
-            
         }
         private void speichernToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //öffnet einen Dialog zur Speicherung des STGs
             saveFileDialog1.ShowDialog();
-
             //schreibt das STG in die vorher ausgewählte Datei
-            File.WriteAllText(saveFileDialog1.FileName, rtbOut.Text);
+            try
+            {
+                File.WriteAllText(saveFileDialog1.FileName, rtbOut.Text);
+            }
+            catch (Exception)
+            {
+
+            }
         }
         private void druckenToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -317,7 +260,7 @@ namespace JavaToNSD
         }
         private void suchenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+        
         }
         private void indexToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -328,36 +271,36 @@ namespace JavaToNSD
 
         }
 
-        public void ColorizeKeywords(RichTextBox textbox)
+        public void ColorizeKeywords()
         {
             //legt die Anfangsposition der Auswahl fest
-            int selStart = textbox.SelectionStart;
+            int selStart = rtbIN.SelectionStart;
 
             //legt die Farbe für die Auswahl fest
-            Color selColor = textbox.SelectionColor;
+            Color selColor = rtbIN.SelectionColor;
 
             try
             {
                 //geht alle Schlüssekwörter einzeln durch
                 foreach (Keyword k in this._wortListe)
                 {
-                    int wortStartIndex = textbox.Text.IndexOf(k.wort, StringComparison.Ordinal);
+                    int wortStartIndex = rtbIN.Text.IndexOf(k.wort, StringComparison.Ordinal);
 
                     while (wortStartIndex >= 0)
                     {
                         //wählt das derzeitige Schlüssekwort aus und färbt es
-                        textbox.Select(wortStartIndex, k.lenght);
-                        textbox.SelectionColor = k.foreColor;
+                        rtbIN.Select(wortStartIndex, k.lenght);
+                        rtbIN.SelectionColor = k.foreColor;
 
                         //wählt das Zeichen nach dem Schlüsselwort aus
-                        textbox.Select(wortStartIndex + k.lenght, 0);
+                        rtbIN.Select(wortStartIndex + k.lenght, 0);
 
                         //setzt die Farbe wieder auf schawrz
-                        textbox.SelectionColor = Color.Black;
+                        rtbIN.SelectionColor = Color.Black;
 
                         //verschiebt die Anfangspostion der Auswahl hinter das Wort
-                        wortStartIndex = textbox.Text.IndexOf(k.wort, wortStartIndex + k.lenght, StringComparison.Ordinal);
-                            
+                        wortStartIndex = rtbIN.Text.IndexOf(k.wort, wortStartIndex + k.lenght, StringComparison.Ordinal);
+
                     }
                 }
             }
@@ -365,6 +308,25 @@ namespace JavaToNSD
             {
             }
 
+        }
+
+        private void ColorizeComments()
+        {
+            foreach (string s in rtbIN.Lines)
+            {
+                rtbIN.DeselectAll();
+                if (s.Contains("//") || s.Contains("/*") || s.Contains("*/") || s.StartsWith(" *"))
+                {
+                    int wortstart = rtbIN.Text.IndexOf(s, StringComparison.Ordinal);
+                    rtbIN.Select(wortstart, s.Length);
+                    rtbIN.SelectionColor = Color.DarkGreen;
+
+                    rtbIN.Select(wortstart + s.Length, 0);
+                    rtbIN.SelectionColor = Color.Black;
+                }
+
+            }
+            rtbIN.DeselectAll();
         }
 
         private void loadWortListe()
@@ -405,7 +367,6 @@ namespace JavaToNSD
             fs.Close();
         }
         
-
         private string[] convertWords(string[] Lines)
         {
             string[] l = Lines;
@@ -423,5 +384,455 @@ namespace JavaToNSD
                     
             return l;
         }
+        #region Schemas für XML
+        string[] xmlSchema = new string[] 
+        { 
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+            "<root text=\"Programm\" comment=\"\" color=\"ffffff\" type=\"program\" style=\"nice\">",
+            "<children>",
+            "</children>",
+            "</root>"
+        };
+
+        string[] xmlSchemaIf = new string[] 
+        { 
+          "<alternative text=\"",
+          "\" comment=\"\" color=\"ffffff\">",
+           "<qTrue>",
+           "",
+           "</qTrue>",
+           "<qFalse>",
+           "",
+           "</qFalse>",
+           "</alternative>"
+        };
+        string[] xmlSchemaAnweisungen = new string[]
+        {
+                "\n<instruction text=\"",
+                "\" comment=\"\" color=\"ffffff\" rotated=\"0\"></instruction>"                                       
+        };
+        #endregion
+        private void makeXML()
+        {
+            string s = "";
+            List<string> l = new List<string>();
+            l.Add(xmlSchema[0]);
+            l.Add(xmlSchema[1]);
+            l.Add(xmlSchema[2]);
+            for (int i = 0; i < tvOut.Nodes.Count; i++)
+            {
+                s = tvOut.Nodes[i].Text;
+
+                if (s.StartsWith("if"))
+                {
+                    l.Add(xmlSchemaIf[0] + s + xmlSchemaIf[1]);
+                    l.Add(xmlSchemaIf[2]);
+                    l.Add(xmlSchemaIf[3]);
+                    l.Add(xmlSchemaIf[4]);
+                    l.Add(xmlSchemaIf[5]);
+                    l.Add(xmlSchemaIf[6]);
+                    l.Add(xmlSchemaIf[7]);
+                    l.Add(xmlSchemaIf[8]);
+                }
+
+                else if (s.StartsWith("switch"))
+                {
+
+                }
+
+                else if (s.StartsWith("for"))
+                {
+
+                }
+
+                else if (s.StartsWith("while"))
+                {
+
+                }
+
+                else
+                {
+                    l.Add(xmlSchemaAnweisungen[0] + s + xmlSchemaAnweisungen[1]);
+                }
+
+            }
+            l.Add(xmlSchema[3]);
+            l.Add(xmlSchema[4]);
+            rtbOut.Lines = l.ToArray();
+        }
+
+        private void openFile(string filename)
+        {
+            //liest alle Zeilen aus der Quell-Code-Datei
+            String[] zeilen;
+            try
+            {
+                zeilen = File.ReadAllLines(filename, Encoding.ASCII);
+            }
+            catch (Exception)
+            {
+                zeilen = new string[] { };
+            }
+
+            //setzt die Zeilen aus der Quelldatei in die Rich-Text-Box
+            rtbIN.Lines = zeilen;
+
+            //wandelt die Zeilen um
+            zeilen = convertWords(zeilen);
+
+            //markiert alle schlüsselwörter
+            ColorizeKeywords();
+
+            //färbt Kommentare grün
+            ColorizeComments();
+
+            //geht alle zeilen der eingeladenen datei durch
+            for (int i = 0; i < zeilen.Length; i++)
+            {
+                //entfernt vorangestellte und nachgestellte Leerzeichn
+                zeilen[i] = zeilen[i].Trim();
+
+                //falls die zeile unnötig ist wird sie entfernt
+                if (zeilen[i].StartsWith(@"/") ||
+                    zeilen[i].StartsWith(@"*") ||
+                    zeilen[i].StartsWith(@"import") ||
+                    zeilen[i].StartsWith(@"{") ||
+                    zeilen[i].StartsWith(@"}"))
+                {
+                    zeilen[i] = "";
+                }
+
+                //wird nur ausgeführt, wenn die Zeile etwas enthält
+                if (zeilen[i] != "")
+                {
+                    //macht alles schön bunt
+                    Color col;
+                    if (zeilen[i].StartsWith("if"))
+                    {
+                        col = Farben.Default.ifc;
+                    }
+
+                    else if (zeilen[i].StartsWith("switch"))
+                    {
+                        col = Farben.Default.casec;
+                    }
+
+                    else if (zeilen[i].StartsWith("for"))
+                    {
+                        col = Farben.Default.forc;
+                    }
+
+                    else if (zeilen[i].StartsWith("while"))
+                    {
+                        col = Farben.Default.whilec;
+                    }
+
+                    else
+                    {
+                        col = Farben.Default.anweisung;
+                    }
+
+                    //fügt zum ListView hinzu
+                    lbIn.Items.Add(rtbIN.Lines[i]).BackColor = col;
+
+                    //fügt zum treeView hinzu
+                    tvOut.Nodes.Add(zeilen[i]);
+                }
+
+            }
+            makeXML();
+        }
+
+        #region AutoComplete für rtbIN
+        private void macheListe1(string keyword)
+        {
+            listBox1.Items.Clear();
+            foreach (var item in _wortListe)
+            {
+                if (item.wort.StartsWith(keyword))
+                {
+                    listBox1.Items.Add(item.wort);
+                }
+            }
+        }
+
+        private void rtbIN_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            listShownAC1 = true;
+            if (listShowAC1)
+            {
+                keyword1 += e.KeyChar;
+
+                countAC1++;
+                Point p = this.rtbIN.GetPositionFromCharIndex(rtbIN.SelectionStart);
+                p.Y += (int)Math.Ceiling(this.rtbIN.Font.GetHeight());
+                listBox1.Location = p;
+                macheListe1(keyword1);
+
+                listBox1.Show();
+
+                if (listBox1.Items.Count > 0)
+                {
+                    listBox1.SelectedIndex = listBox1.FindString(keyword1);
+                }
+                rtbIN.Focus();
+                listShownAC1 = false;
+            }
+            if (abc.Contains(e.KeyChar.ToString()) && listShownAC1)
+            {
+                listShowAC1 = true;
+                keyword1 += e.KeyChar;
+                countAC1++;
+                Point p = this.rtbIN.GetPositionFromCharIndex(rtbIN.SelectionStart);
+                p.Y += (int)Math.Ceiling(this.rtbIN.Font.GetHeight());
+
+                listBox1.Location = p;
+                macheListe1(keyword1);
+
+                listBox1.Show();
+                if (listBox1.Items.Count > 0)
+                {
+                    listBox1.SelectedIndex = listBox1.FindString(keyword1);
+                }
+                rtbIN.Focus();
+            }
+        }
+
+        private void rtbIN_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Space )
+            {
+                countAC1 = 0;
+                keyword1 = "";
+                listShowAC1 = false;
+                listBox1.Hide();
+            }
+            if (listShowAC1)
+            {
+                if (e.KeyCode == Keys.Up)
+                {
+                    listBox1.Focus();
+                    if (listBox1.SelectedIndex != 0)
+                    {
+                        listBox1.SelectedIndex -= 1;
+                    }
+                    else
+                    {
+                        listBox1.SelectedIndex = 0;
+                    }
+                    rtbIN.Focus();
+                }
+                else if (e.KeyCode == Keys.Down)
+                {
+                    listBox1.Focus();
+                    try
+                    {
+                        listBox1.SelectedIndex += 1;
+                    }
+                    catch (Exception)
+                    {
+                    }
+                    rtbIN.Focus();
+                }
+                if (e.KeyCode == Keys.ControlKey)
+                {
+                    string autoText = listBox1.SelectedItem.ToString();
+
+                    int beginPlace = rtbIN.SelectionStart - countAC1;
+
+                    rtbIN.Select(beginPlace, countAC1);
+
+                    rtbIN.SelectedText = autoText;
+
+                    rtbIN.Focus();
+
+                    listShowAC1 = false;
+
+                    listBox1.Hide();
+
+                    int endPlace = autoText.Length + beginPlace;
+
+                    rtbIN.SelectionStart = endPlace;
+
+                    countAC1 = 0;
+                }
+            }
+        }
+
+        private void listBox1_DoubleClick(object sender, EventArgs e)
+        {
+            string autoText = listBox1.SelectedItem.ToString();
+            int beginPlace = rtbIN.SelectionStart - countAC1;
+            
+            rtbIN.Select(beginPlace, countAC1);
+            rtbIN.SelectedText = autoText;
+            rtbIN.Focus();
+            listShowAC1 = false;
+            listBox1.Hide();
+            int endPlace = autoText.Length + beginPlace;
+            rtbIN.SelectionStart = endPlace;
+            countAC1 = 0;
+        }
+        #endregion
+
+
+        #region AutoComplete für rtbOut
+        String[] _xmlListe = new String[] 
+        { 
+             "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+            "<root text=\"Programm\" comment=\"\" color=\"ffffff\" type=\"program\" style=\"nice\">",
+            "<children>",
+            "</children>",
+            "</root>",
+            "<alternative text=\"\" comment=\"\" color=\"ffffff\">",
+            "<qTrue>",
+           "</qTrue>",
+           "<qFalse>",
+           "</qFalse>",
+           "</alternative>",
+           "<instruction text=\"\" comment=\"\" color=\"ffffff\" rotated=\"0\"></instruction>"
+        };
+        
+
+        private void macheListe2(string keyword)
+        {
+            listBox2.Items.Clear();
+            foreach (var item in _xmlListe)
+            {
+                if (item.StartsWith(keyword))
+                {
+                    listBox2.Items.Add(item);
+                }
+            }
+        }
+
+        private void rtbOut_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            listShownAC2 = true;
+            if (listShowAC2)
+            {
+                keyword2 += e.KeyChar;
+
+                countAC2++;
+                Point p = this.rtbOut.GetPositionFromCharIndex(rtbOut.SelectionStart);
+                p.Y += (int)Math.Ceiling(this.rtbOut.Font.GetHeight());
+                listBox2.Location = p;
+                macheListe2(keyword2);
+
+                listBox2.Show();
+
+                if (listBox2.Items.Count > 0)
+                {
+                    listBox2.SelectedIndex = listBox2.FindString(keyword2);
+                }
+                rtbOut.Focus();
+                listShownAC2 = false;
+            }
+            if ((abc.Contains(e.KeyChar.ToString()) || e.KeyChar == '<') && listShownAC2)
+            {
+                listShowAC2 = true;
+                keyword2 += e.KeyChar;
+                countAC2++;
+                Point p = this.rtbOut.GetPositionFromCharIndex(rtbOut.SelectionStart);
+                p.Y += (int)Math.Ceiling(this.rtbOut.Font.GetHeight());
+
+                listBox2.Location = p;
+                macheListe2(keyword2);
+
+                listBox2.Show();
+                if (listBox2.Items.Count > 0)
+                {
+                    listBox2.SelectedIndex = listBox2.FindString(keyword2);
+                }
+                rtbOut.Focus();
+            }
+        }
+
+        private void rtbOut_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Space)
+            {
+                countAC2 = 0;
+                keyword2 = "";
+                listShowAC2 = false;
+                listBox2.Hide();
+            }
+            if (listShowAC2)
+            {
+                if (e.KeyCode == Keys.Up)
+                {
+                    listBox2.Focus();
+                    if (listBox2.SelectedIndex != 0)
+                    {
+                        listBox2.SelectedIndex -= 1;
+                    }
+                    else
+                    {
+                        listBox2.SelectedIndex = 0;
+                    }
+                    rtbOut.Focus();
+                }
+                else if (e.KeyCode == Keys.Down)
+                {
+                    listBox2.Focus();
+                    try
+                    {
+                        listBox2.SelectedIndex += 1;
+                    }
+                    catch (Exception)
+                    {
+                    }
+                    rtbOut.Focus();
+                }
+                if (e.KeyCode == Keys.ControlKey)
+                {
+                    string autoText = listBox2.SelectedItem.ToString();
+
+                    int beginPlace = rtbOut.SelectionStart - countAC2;
+
+                    rtbOut.Select(beginPlace, countAC2);
+
+                    rtbOut.SelectedText = autoText;
+
+                    rtbOut.Focus();
+
+                    listShowAC2 = false;
+
+                    listBox2.Hide();
+
+                    int endPlace = autoText.Length + beginPlace;
+
+                    rtbOut.SelectionStart = endPlace;
+
+                    countAC2 = 0;
+                }
+            }
+        }
+
+        private void listBox2_DoubleClick(object sender, EventArgs e)
+        {
+            string autoText = listBox2.SelectedItem.ToString();
+
+            int beginPlace = rtbOut.SelectionStart - countAC2;
+
+            rtbOut.Select(beginPlace, countAC2);
+
+            rtbOut.SelectedText = autoText;
+
+            rtbOut.Focus();
+
+            listShowAC2 = false;
+
+            listBox2.Hide();
+
+            int endPlace = autoText.Length + beginPlace;
+
+            rtbOut.SelectionStart = endPlace;
+
+            countAC2 = 0;
+        }
+        #endregion
+
+        
     }
 }

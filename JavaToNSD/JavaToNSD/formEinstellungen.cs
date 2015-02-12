@@ -187,6 +187,61 @@ namespace JavaToNSD
             listView2.Items.Clear();
         }
 
+        private void button8_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.ShowDialog();
+
+            FileStream fs;
+            fs = new FileStream(openFileDialog1.FileName, FileMode.Open);
+            BinaryFormatter formatter = new BinaryFormatter();
+            try
+            {
+                //versucht die Übersetzungen auszulesen und abzuspeichern
+                _uebersetzungen = (List<Uebersetzung>)formatter.Deserialize(fs);
+            }
+            catch (Exception)
+            {
+                //falls das fehlschlägt wird eine Leere Liste verwendet
+                _uebersetzungen = new List<Uebersetzung>();
+            }
+            //schließt die Datei wieder
+            fs.Close();
+
+            
+            int index = 0;
+            foreach (var item in _uebersetzungen)
+            {
+                index = listView2.Items.Add(item.java).Index;
+                listView2.Items[index].SubItems.Add(item.vorA);
+                listView2.Items[index].SubItems.Add(item.zwischenAB);
+                listView2.Items[index].SubItems.Add(item.nachB);
+            }
+
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.ShowDialog();
+            //öffnet die Schlüsselwort-Datei
+            FileStream fs;
+            fs = new FileStream(openFileDialog1.FileName, FileMode.Open);
+            BinaryFormatter formatter = new BinaryFormatter();
+            try
+            {
+                _wortListe = (List<Keyword>)formatter.Deserialize(fs);
+            }
+            catch (Exception)
+            {
+                _wortListe = new List<Keyword>();
+            }
+            fs.Close();
+
+            foreach (var item in _wortListe)
+            {
+                listView1.Items.Add(item.wort).ForeColor = item.foreColor;
+            }
+        }
+
         
     }
 }
