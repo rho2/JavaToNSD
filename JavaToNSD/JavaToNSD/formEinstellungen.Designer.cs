@@ -32,6 +32,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.button8 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.textBox5 = new System.Windows.Forms.TextBox();
@@ -51,6 +52,7 @@
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.button9 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.listView1 = new System.Windows.Forms.ListView();
@@ -62,8 +64,6 @@
             this.toolStripSplitButton2 = new System.Windows.Forms.ToolStripSplitButton();
             this.toolStripSplitButton3 = new System.Windows.Forms.ToolStripSplitButton();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.button8 = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -109,6 +109,16 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Übersetzung";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(682, 441);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(86, 23);
+            this.button8.TabIndex = 5;
+            this.button8.Text = "aus Datei...";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // button5
             // 
@@ -293,9 +303,19 @@
             this.tabPage4.Text = "Syntax Highlighting";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(638, 491);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(130, 23);
+            this.button9.TabIndex = 8;
+            this.button9.Text = "aus Datei...";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
+            // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(638, 87);
+            this.button2.Location = new System.Drawing.Point(638, 433);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(130, 23);
             this.button2.TabIndex = 7;
@@ -305,7 +325,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(638, 29);
+            this.button4.Location = new System.Drawing.Point(638, 375);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(130, 23);
             this.button4.TabIndex = 6;
@@ -324,14 +344,17 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(638, 3);
+            this.textBox1.Location = new System.Drawing.Point(638, 6);
+            this.textBox1.MaxLength = 100000;
+            this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(130, 20);
+            this.textBox1.Size = new System.Drawing.Size(130, 363);
             this.textBox1.TabIndex = 4;
+            this.textBox1.WordWrap = false;
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(638, 116);
+            this.button3.Location = new System.Drawing.Point(638, 462);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(130, 23);
             this.button3.TabIndex = 3;
@@ -341,7 +364,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(638, 58);
+            this.button1.Location = new System.Drawing.Point(638, 404);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(130, 23);
             this.button1.TabIndex = 1;
@@ -396,26 +419,6 @@
             // 
             this.colorDialog1.AllowFullOpen = false;
             this.colorDialog1.SolidColorOnly = true;
-            // 
-            // button8
-            // 
-            this.button8.Location = new System.Drawing.Point(682, 441);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(86, 23);
-            this.button8.TabIndex = 5;
-            this.button8.Text = "aus Datei...";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
-            // 
-            // button9
-            // 
-            this.button9.Location = new System.Drawing.Point(638, 145);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(130, 23);
-            this.button9.TabIndex = 8;
-            this.button9.Text = "aus Datei...";
-            this.button9.UseVisualStyleBackColor = true;
-            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
             // openFileDialog1
             // 

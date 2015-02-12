@@ -536,7 +536,7 @@ namespace JavaToNSD
                     lbIn.Items.Add(rtbIN.Lines[i]).BackColor = col;
 
                     //fügt zum treeView hinzu
-                    tvOut.Nodes.Add(zeilen[i]);
+                    tvOut.Nodes.Add(zeilen[i].Replace("\"",""));
                 }
 
             }
@@ -600,7 +600,7 @@ namespace JavaToNSD
 
         private void rtbIN_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Space )
+            if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Space || e.KeyCode == Keys.Back)
             {
                 countAC1 = 0;
                 keyword1 = "";
@@ -750,7 +750,7 @@ namespace JavaToNSD
 
         private void rtbOut_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Space)
+            if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Space || e.KeyCode == Keys.Back)
             {
                 countAC2 = 0;
                 keyword2 = "";

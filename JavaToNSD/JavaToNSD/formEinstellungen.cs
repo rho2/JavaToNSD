@@ -47,7 +47,10 @@ namespace JavaToNSD
         private void button1_Click(object sender, EventArgs e)
         {
             //fügt ein neues Schlüsselwort hinzu
-            listView1.Items.Add(textBox1.Text).ForeColor = colorDialog1.Color;
+            foreach (string s in textBox1.Lines)
+            {
+                listView1.Items.Add(s).ForeColor = colorDialog1.Color;
+            }
             //erstellt ein neues Keyword
             //_wortListe.Add(new Keyword(textBox1.Text, colorDialog1.Color));
             
