@@ -7,8 +7,12 @@ using System.Threading.Tasks;
 namespace JavaToNSD
 {
     [Serializable()]
-    class Uebersetzung
+    public class Uebersetzung
     {
+        public Uebersetzung()
+        {
+
+        }
         public Uebersetzung(string java, string vorA, string zwischenAundB, string nachB)
         {
             this.java = java;

@@ -679,13 +679,13 @@ namespace JavaToNSD
         #region AutoComplete für rtbOut
         String[] _xmlListe = new String[] 
         { 
-             "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
-            "<root text=\"Programm\" comment=\"\" color=\"ffffff\" type=\"program\" style=\"nice\">",
-            "<children>",
-            "</children>",
-            "</root>",
-            "<alternative text=\"\" comment=\"\" color=\"ffffff\">",
-            "<qTrue>",
+           "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+           "<root text=\"Programm\" comment=\"\" color=\"ffffff\" type=\"program\" style=\"nice\">",
+           "<children>",
+           "</children>",
+           "</root>",
+           "<alternative text=\"\" comment=\"\" color=\"ffffff\">",
+           "<qTrue>",
            "</qTrue>",
            "<qFalse>",
            "</qFalse>",
