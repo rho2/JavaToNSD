@@ -260,7 +260,14 @@ namespace JavaToNSD
         }
         private void suchenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-        
+            if (rtbIN.Focused)
+            {
+                
+            }
+            if (rtbOut.Focused)
+            {
+                
+            }
         }
         private void indexToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -371,13 +378,39 @@ namespace JavaToNSD
         {
             string[] l = Lines;
 
-            for (int i = 0; i < l.Length; i++)
+            string a = "";
+            List<string> b = new List<string>();
+            for (int i = 0; i < Lines.Length; i++)
             {
-                foreach (Uebersetzung item in _uebersetungen)
+                a = "";
+                foreach (Uebersetzung u in _uebersetungen)
                 {
-                    foreach (Match match in Regex.Matches(l[i], item.java))
+                    foreach (Match m in Regex.Matches(Lines[i], u.pattern))
                     {
-                        l[i] = item.vorA + match.Groups[1].Value + item.zwischenAB + match.Groups[2].Value + item.nachB;
+                        a = u.start;
+                        switch (u.anzahlVariablen)
+                        {
+                            case 1:
+
+                                a += m.Groups[u.variablen[0]].Value + u.texte[0];
+                                break;
+                            case 2:
+                                a += m.Groups[u.variablen[0]].Value + u.texte[0];
+                                a += m.Groups[u.variablen[1]].Value + u.texte[1];
+                                break;
+                            case 3:
+                                a += m.Groups[u.variablen[0]].Value + u.texte[0];
+                                a += m.Groups[u.variablen[1]].Value + u.texte[1];
+                                a += m.Groups[u.variablen[2]].Value + u.texte[2];
+                                break;
+                            case 4:
+                                a += m.Groups[u.variablen[0]].Value + u.texte[0];
+                                a += m.Groups[u.variablen[1]].Value + u.texte[1];
+                                a += m.Groups[u.variablen[2]].Value + u.texte[2];
+                                a += m.Groups[u.variablen[3]].Value + u.texte[3];
+                                break;
+                        }
+                        l[i] = a;
                     }
                 }
             }
@@ -422,6 +455,7 @@ namespace JavaToNSD
             for (int i = 0; i < tvOut.Nodes.Count; i++)
             {
                 s = tvOut.Nodes[i].Text;
+                s = s.Replace("<-", "&#60;-");
 
                 if (s.StartsWith("if"))
                 {
@@ -832,6 +866,81 @@ namespace JavaToNSD
             countAC2 = 0;
         }
         #endregion
+
+        private void toolStripSplitButton1_ButtonClick(object sender, EventArgs e)
+        {
+            rtbOut.Clear();
+            lbIn.Items.Clear();
+            tvOut.Nodes.Clear();
+
+            //setzt die Zeilen aus der Quelldatei in die Rich-Text-Box
+            string[] zeilen = rtbIN.Lines;
+
+            //wandelt die Zeilen um
+            zeilen = convertWords(zeilen);
+
+            //markiert alle schlüsselwörter
+            ColorizeKeywords();
+
+            //färbt Kommentare grün
+            ColorizeComments();
+
+            //geht alle zeilen der eingeladenen datei durch
+            for (int i = 0; i < zeilen.Length; i++)
+            {
+                //entfernt vorangestellte und nachgestellte Leerzeichn
+                zeilen[i] = zeilen[i].Trim();
+
+                //falls die zeile unnötig ist wird sie entfernt
+                if (zeilen[i].StartsWith(@"/") ||
+                    zeilen[i].StartsWith(@"*") ||
+                    zeilen[i].StartsWith(@"import") ||
+                    zeilen[i].StartsWith(@"{") ||
+                    zeilen[i].StartsWith(@"}"))
+                {
+                    zeilen[i] = "";
+                }
+
+                //wird nur ausgeführt, wenn die Zeile etwas enthält
+                if (zeilen[i] != "")
+                {
+                    //macht alles schön bunt
+                    Color col;
+                    if (zeilen[i].StartsWith("if"))
+                    {
+                        col = Farben.Default.ifc;
+                    }
+
+                    else if (zeilen[i].StartsWith("switch"))
+                    {
+                        col = Farben.Default.casec;
+                    }
+
+                    else if (zeilen[i].StartsWith("for"))
+                    {
+                        col = Farben.Default.forc;
+                    }
+
+                    else if (zeilen[i].StartsWith("while"))
+                    {
+                        col = Farben.Default.whilec;
+                    }
+
+                    else
+                    {
+                        col = Farben.Default.anweisung;
+                    }
+
+                    //fügt zum ListView hinzu
+                    lbIn.Items.Add(rtbIN.Lines[i]).BackColor = col;
+
+                    //fügt zum treeView hinzu
+                    tvOut.Nodes.Add(zeilen[i].Replace("\"", ""));
+                }
+
+            }
+            makeXML();
+        }
 
         
     }

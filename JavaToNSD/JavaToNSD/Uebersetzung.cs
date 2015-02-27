@@ -13,23 +13,18 @@ namespace JavaToNSD
         {
 
         }
-        public Uebersetzung(string java, string vorA, string zwischenAundB, string nachB)
+        public Uebersetzung(byte anzahl, string pattern, string start, List<string> texte, List<string> variablen)
         {
-            this.java = java;
-            this.vorA = vorA;
-            this.zwischenAB = zwischenAundB;
-            this.nachB = nachB;
+            this.pattern = pattern;
+            this.start = start;
+            this.texte = texte;
+            this.variablen = variablen;
+            this.anzahlVariablen = anzahl;
         }
-        public Uebersetzung(string java, string vorA)
-        {
-            this.java = java;
-            this.vorA = vorA;
-            this.zwischenAB = "";
-            this.nachB = "";
-        }
-        public string java;
-        public string vorA;
-        public string zwischenAB;
-        public string nachB;
+        public string start;
+        public string pattern;
+        public byte anzahlVariablen;
+        public List<string> texte;
+        public List<string> variablen;
     }
 }
