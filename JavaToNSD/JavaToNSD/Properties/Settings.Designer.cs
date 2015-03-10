@@ -66,5 +66,53 @@ namespace JavaToNSD.Properties {
                 this["FontXMLEditor"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("javansd@outlook.de")]
+        public string MailName {
+            get {
+                return ((string)(this["MailName"]));
+            }
+            set {
+                this["MailName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ABCDEF123456")]
+        public string MailPass {
+            get {
+                return ((string)(this["MailPass"]));
+            }
+            set {
+                this["MailPass"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("smtp.live.com")]
+        public string MailServer {
+            get {
+                return ((string)(this["MailServer"]));
+            }
+            set {
+                this["MailServer"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("25")]
+        public int MailPort {
+            get {
+                return ((int)(this["MailPort"]));
+            }
+            set {
+                this["MailPort"] = value;
+            }
+        }
     }
 }

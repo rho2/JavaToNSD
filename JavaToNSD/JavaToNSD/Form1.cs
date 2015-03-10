@@ -13,6 +13,7 @@ using JavaToNSD;
 using JavaToNSD.Properties;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
+using System.Net.Mail;
 
 namespace JavaToNSD
 {
@@ -46,16 +47,17 @@ namespace JavaToNSD
             InitializeComponent();
             this.rtbIN.AllowDrop = true;
             this.rtbIN.DragEnter += rtbIN_DragEnter;
-            this.rtbIN.DragDrop += rtbIN_DragDrop;
+            this.rtbIN.DragDrop += rtbIN_DragDrop;       
         }
+        
+       
 
         void rtbIN_DragDrop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 string[] path = (string[])e.Data.GetData(DataFormats.FileDrop);
-                openFile(path[0]);
-                
+                openFile(path[0]);       
             }
         }
 
@@ -275,7 +277,8 @@ namespace JavaToNSD
         }
         private void inhaltToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            //öffnet den Link mit dem Standart-Browser
+            System.Diagnostics.Process.Start("https://javansd.codeplex.com/discussions");
         }
 
         public void ColorizeKeywords()
@@ -711,6 +714,7 @@ namespace JavaToNSD
 
 
         #region AutoComplete für rtbOut
+        //ein Array, mit allen XML-tags, die in einem STG verwendet werden
         String[] _xmlListe = new String[] 
         { 
            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
@@ -727,7 +731,7 @@ namespace JavaToNSD
            "<instruction text=\"\" comment=\"\" color=\"ffffff\" rotated=\"0\"></instruction>"
         };
         
-
+        //legt alle Elemente aus _xmlListe in die ListBox, die mit dem Schlüsselwort starten 
         private void macheListe2(string keyword)
         {
             listBox2.Items.Clear();
@@ -739,20 +743,19 @@ namespace JavaToNSD
                 }
             }
         }
-
+        
         private void rtbOut_KeyPress(object sender, KeyPressEventArgs e)
         {
             listShownAC2 = true;
             if (listShowAC2)
             {
                 keyword2 += e.KeyChar;
-
                 countAC2++;
+                //holt die Position, an der die ListBox später angezeigt werden soll
                 Point p = this.rtbOut.GetPositionFromCharIndex(rtbOut.SelectionStart);
                 p.Y += (int)Math.Ceiling(this.rtbOut.Font.GetHeight());
                 listBox2.Location = p;
                 macheListe2(keyword2);
-
                 listBox2.Show();
 
                 if (listBox2.Items.Count > 0)
@@ -869,6 +872,7 @@ namespace JavaToNSD
 
         private void toolStripSplitButton1_ButtonClick(object sender, EventArgs e)
         {
+            //leert die Steuerelemente
             rtbOut.Clear();
             lbIn.Items.Clear();
             tvOut.Nodes.Clear();
@@ -891,7 +895,7 @@ namespace JavaToNSD
                 //entfernt vorangestellte und nachgestellte Leerzeichn
                 zeilen[i] = zeilen[i].Trim();
 
-                //falls die zeile unnötig ist wird sie entfernt
+                //falls die zeile unnötig ist, wird sie entfernt
                 if (zeilen[i].StartsWith(@"/") ||
                     zeilen[i].StartsWith(@"*") ||
                     zeilen[i].StartsWith(@"import") ||
@@ -939,9 +943,122 @@ namespace JavaToNSD
                 }
 
             }
+            //erstellt den XML-Code für das STG
             makeXML();
         }
 
-        
+        private void fehlerMeldenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string fehlertext = "";
+            //legt den Text für die E-Mail auf den markierten Inhalt im Fenster
+            if (rtbIN.Focus() && rtbIN.SelectedText != null)
+            {
+                fehlertext = rtbIN.SelectedText;
+            }
+            if (rtbOut.Focus() && rtbOut.SelectedText != null)
+            {
+                fehlertext = rtbOut.SelectedText;
+            }
+            if (lbIn.Focus() && lbIn.SelectedItems != null)
+            {
+                foreach (ListViewItem item in lbIn.SelectedItems)
+                {
+                    fehlertext += item.Text;
+                    fehlertext += " ";
+                }
+            }
+            if (tvOut.Focus() && tvOut.SelectedNode.Text != null)
+            {
+                fehlertext = tvOut.SelectedNode.Text;
+            }
+            //zeigt das Mail-Senden Fenster an
+            Form m = new Mail(fehlertext);
+            m.ShowDialog();
+            //falls OK geklickt wurde
+            if (m.DialogResult == System.Windows.Forms.DialogResult.OK)
+            {
+                //sendet die E-Mail mit dem eingegeben Inhalt und Betreff
+                sendMail(m.Tag.ToString(), m.Text);
+            }
+        }
+
+        /// <summary>
+        /// Sendet eine E-Mail
+        /// </summary>
+        /// <param name="inhalt">der Inhalt der E-Mail</param>
+        /// <param name="betreff">der Betreff der E-Mail</param>
+        private void sendMail(string inhalt, string betreff)
+        {
+            //Erzeugt eine neue Mail
+            MailMessage mail = new MailMessage();
+            //legt den Absender der Mail auf die gespeicherte E-Mailadresse
+            mail.From = new MailAddress(Settings.Default.MailName);
+            //fügt einen Empfänger hinzu
+            mail.To.Add("javansd@outlook.de");
+            //legt den Betreff fest
+            mail.Subject = betreff;
+            //legt den Inhalt fest
+            mail.Body = inhalt;
+            //neuer SMTP-Client mit dem gespeicherten Mail-Server und gespeicherten Port
+            SmtpClient client = new SmtpClient(Settings.Default.MailServer, Settings.Default.MailPort);
+            //versucht eine Mail zu senden
+            try
+            {
+                //erstellt neue Anmeldeinformationen
+                client.Credentials = new System.Net.NetworkCredential(Settings.Default.MailName, Settings.Default.MailPass);
+                //aktiviert ssl
+                client.EnableSsl = true;
+                //sendet die Mail
+                client.Send(mail);
+                MessageBox.Show("E-Mail gesendet");
+            }
+            catch (Exception ex)
+            {
+                //gibt den Fehler aus
+                MessageBox.Show("Fehler beim Senden der Mail:\n" + ex.Message);
+            }
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            //Kopieren des Textes in der ausgewählten Textbox
+            if (rtbIN.Focused)
+            {
+                rtbIN.Copy();
+            }
+
+            if (rtbOut.Focused)
+            {
+                rtbOut.Copy();
+            }
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            //Einfügen des Textes in der ausgewählten Textbox
+            if (rtbIN.Focused)
+            {
+                rtbIN.Paste();
+            }
+
+            if (rtbOut.Focused)
+            {
+                rtbOut.Paste();
+            }
+        }
+
+        private void toolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            //Ausschneiden des Textes in der ausgewählten Textbox
+            if (rtbIN.Focused)
+            {
+                rtbIN.Cut();
+            }
+
+            if (rtbOut.Focused)
+            {
+                rtbOut.Cut();
+            }
+        }
     }
 }

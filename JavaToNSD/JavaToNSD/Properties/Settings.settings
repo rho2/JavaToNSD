@@ -14,5 +14,17 @@
     <Setting Name="FontXMLEditor" Type="System.Drawing.Font" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="MailName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">javansd@outlook.de</Value>
+    </Setting>
+    <Setting Name="MailPass" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ABCDEF123456</Value>
+    </Setting>
+    <Setting Name="MailServer" Type="System.String" Scope="User">
+      <Value Profile="(Default)">smtp.live.com</Value>
+    </Setting>
+    <Setting Name="MailPort" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">25</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

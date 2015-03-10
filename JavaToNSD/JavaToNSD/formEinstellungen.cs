@@ -138,7 +138,7 @@ namespace JavaToNSD
                 text.Add(listView2.Items[i].SubItems[9].Text);
 
                 anzahlVariablen = Convert.ToByte(listView2.Items[i].SubItems[10].Text);
-                MessageBox.Show(anzahlVariablen.ToString() + listView2.Items[i].SubItems[2].Text);
+                //MessageBox.Show(anzahlVariablen.ToString() + listView2.Items[i].SubItems[2].Text);
                 _uebersetzungen.Add(new Uebersetzung(anzahlVariablen, pattern, start, text, variablen));
             }
 
@@ -188,7 +188,7 @@ namespace JavaToNSD
         private void button7_Click(object sender, EventArgs e)
         {
             int index = listView2.Items.Add(textBox2.Text).Index;
-            MessageBox.Show(anzahlVariablen.ToString());
+            //MessageBox.Show(anzahlVariablen.ToString());
             switch (anzahlVariablen)
             {
                 case 1:

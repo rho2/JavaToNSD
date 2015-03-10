@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode(" ");
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.dateiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.neuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,6 +56,7 @@
             this.optionenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hilfeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inhaltToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.suchenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -69,7 +72,11 @@
             this.tvOut = new System.Windows.Forms.TreeView();
             this.listBox2 = new System.Windows.Forms.ListBox();
             this.rtbOut = new System.Windows.Forms.RichTextBox();
-            this.suchenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fehlerMeldenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -84,6 +91,7 @@
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -277,14 +285,14 @@
             // anpassenToolStripMenuItem
             // 
             this.anpassenToolStripMenuItem.Name = "anpassenToolStripMenuItem";
-            this.anpassenToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.anpassenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.anpassenToolStripMenuItem.Text = "&Anpassen";
             this.anpassenToolStripMenuItem.Click += new System.EventHandler(this.anpassenToolStripMenuItem_Click);
             // 
             // optionenToolStripMenuItem
             // 
             this.optionenToolStripMenuItem.Name = "optionenToolStripMenuItem";
-            this.optionenToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.optionenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.optionenToolStripMenuItem.Text = "&Optionen";
             this.optionenToolStripMenuItem.Click += new System.EventHandler(this.optionenToolStripMenuItem_Click);
             // 
@@ -294,7 +302,8 @@
             this.inhaltToolStripMenuItem,
             this.suchenToolStripMenuItem,
             this.toolStripSeparator5,
-            this.infoToolStripMenuItem});
+            this.infoToolStripMenuItem,
+            this.fehlerMeldenToolStripMenuItem});
             this.hilfeToolStripMenuItem.Name = "hilfeToolStripMenuItem";
             this.hilfeToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.hilfeToolStripMenuItem.Text = "&Hilfe";
@@ -302,19 +311,26 @@
             // inhaltToolStripMenuItem
             // 
             this.inhaltToolStripMenuItem.Name = "inhaltToolStripMenuItem";
-            this.inhaltToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.inhaltToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.inhaltToolStripMenuItem.Text = "I&nhalt";
             this.inhaltToolStripMenuItem.Click += new System.EventHandler(this.inhaltToolStripMenuItem_Click);
+            // 
+            // suchenToolStripMenuItem
+            // 
+            this.suchenToolStripMenuItem.Name = "suchenToolStripMenuItem";
+            this.suchenToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.suchenToolStripMenuItem.Text = "&Suchen";
+            this.suchenToolStripMenuItem.Click += new System.EventHandler(this.suchenToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(155, 6);
             // 
             // infoToolStripMenuItem
             // 
             this.infoToolStripMenuItem.Name = "infoToolStripMenuItem";
-            this.infoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.infoToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.infoToolStripMenuItem.Text = "Inf&o...";
             this.infoToolStripMenuItem.Click += new System.EventHandler(this.infoToolStripMenuItem_Click);
             // 
@@ -379,9 +395,11 @@
             // 
             // rtbIN
             // 
+            this.rtbIN.ContextMenuStrip = this.contextMenuStrip1;
             this.rtbIN.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbIN.Location = new System.Drawing.Point(0, 0);
             this.rtbIN.Name = "rtbIN";
+            this.rtbIN.ShowSelectionMargin = true;
             this.rtbIN.Size = new System.Drawing.Size(318, 615);
             this.rtbIN.TabIndex = 0;
             this.rtbIN.Text = "";
@@ -439,6 +457,10 @@
             this.tvOut.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvOut.Location = new System.Drawing.Point(0, 0);
             this.tvOut.Name = "tvOut";
+            treeNode1.Name = "Knoten0";
+            treeNode1.Text = " ";
+            this.tvOut.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            treeNode1});
             this.tvOut.Size = new System.Drawing.Size(313, 355);
             this.tvOut.TabIndex = 0;
             // 
@@ -454,21 +476,54 @@
             // 
             // rtbOut
             // 
+            this.rtbOut.ContextMenuStrip = this.contextMenuStrip1;
             this.rtbOut.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbOut.Location = new System.Drawing.Point(0, 0);
             this.rtbOut.Name = "rtbOut";
+            this.rtbOut.ShowSelectionMargin = true;
             this.rtbOut.Size = new System.Drawing.Size(345, 615);
             this.rtbOut.TabIndex = 0;
             this.rtbOut.Text = "";
             this.rtbOut.KeyDown += new System.Windows.Forms.KeyEventHandler(this.rtbOut_KeyDown);
             this.rtbOut.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.rtbOut_KeyPress);
             // 
-            // suchenToolStripMenuItem
+            // fehlerMeldenToolStripMenuItem
             // 
-            this.suchenToolStripMenuItem.Name = "suchenToolStripMenuItem";
-            this.suchenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.suchenToolStripMenuItem.Text = "&Suchen";
-            this.suchenToolStripMenuItem.Click += new System.EventHandler(this.suchenToolStripMenuItem_Click);
+            this.fehlerMeldenToolStripMenuItem.Name = "fehlerMeldenToolStripMenuItem";
+            this.fehlerMeldenToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.fehlerMeldenToolStripMenuItem.Text = "Fehler melden...";
+            this.fehlerMeldenToolStripMenuItem.Click += new System.EventHandler(this.fehlerMeldenToolStripMenuItem_Click);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1,
+            this.toolStripMenuItem2,
+            this.toolStripMenuItem3});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.contextMenuStrip1.Size = new System.Drawing.Size(149, 70);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(148, 22);
+            this.toolStripMenuItem1.Text = "Kopieren";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(148, 22);
+            this.toolStripMenuItem2.Text = "Einfügen";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(148, 22);
+            this.toolStripMenuItem3.Text = "Ausschneiden";
+            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
             // 
             // Form1
             // 
@@ -499,6 +554,7 @@
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -547,6 +603,11 @@
         private System.Windows.Forms.ListBox listBox2;
         private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton1;
         private System.Windows.Forms.ToolStripMenuItem suchenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fehlerMeldenToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
     }
 }
 
